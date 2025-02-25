@@ -8,7 +8,7 @@ from telegram.ext import (
 )
 
 # Load token securely
-TOKEN = os.getenv("5503691929:AAHruRPFP3998zJCM4PGHOnmltkFYyeu8zk")
+TOKEN = "5503691929:AAHruRPFP3998zJCM4PGHOnmltkFYyeu8zk"
 ADMIN_IDS = [5050578106]  # List of admin IDs
 
 # File Paths
