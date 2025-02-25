@@ -103,17 +103,22 @@ def stop_quiz(update: Update, context: CallbackContext):
         update.message.reply_text("No active quiz to stop.")
 
 # Handle Quiz Answers
-def handle_poll_answer(update: Update, context: CallbackContext):
+def handle_poll_answer(update, context):
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
+    leaderboard = load_leaderboard()
+    
+    correct_points = 2  # Points for the correct answer
 
-    for quiz in quizzes:
-        if selected_option == quiz["options"].index(quiz["answer"]):
-            leaderboard[user_id] = leaderboard.get(user_id, 0) + 1
-            save_data(LEADERBOARD_FILE, leaderboard)
-            return
-
+    if selected_option is not None:
+        for quiz in quizzes:
+            if selected_option == quiz["options"].index(quiz["answer"]):
+                # Add points only if the answer is correct
+                leaderboard[user_id] = leaderboard.get(user_id, 0) + correct_points
+                save_leaderboard(leaderboard)
+                return
+                
 # Show Leaderboard
 def show_leaderboard(update: Update, context: CallbackContext):
     sorted_scores = sorted(leaderboard.items(), key=lambda x: x[1], reverse=True)
