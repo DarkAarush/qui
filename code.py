@@ -153,14 +153,16 @@ def broadcast(update: Update, context: CallbackContext):
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
-
-    dp.add_handler(CommandHandler("start", lambda update, context: update.message.reply_text("Use /sendgroup to start a quiz in a group.")))
-    dp.add_handler(CommandHandler("sendgroup", start_quiz))
+    
+    dp.add_handler(CommandHandler("start", lambda update, context: update.message.reply_text("Welcome! Use /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.")))
+    dp.add_handler(CommandHandler("sendgroup", sendgroup))
+   # dp.add_handler(CommandHandler("prequiz", prequiz))
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
+    dp.add_handler(CommandHandler("setinterval", set_interval))
+    dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
-    dp.add_handler(PollAnswerHandler(handle_poll_answer))
-
+    
     updater.start_polling()
     updater.idle()
 
